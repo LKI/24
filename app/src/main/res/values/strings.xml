@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">TwentyFour</string>
+
+    <string name="win">Win</string>
+    <string name="out_of_card">Out of card</string>
+    <string name="math_plus">+</string>
+    <string name="math_minus">-</string>
+    <string name="math_multiple">*</string>
+    <string name="math_divide">/</string>
+    <string name="button_replay">Replay</string>
+    <string name="motion_up">Up</string>
+    <string name="motion_down">Down</string>
+    <string name="motion_left">Left</string>
+    <string name="motion_right">Right</string>
+    <string name="motion_waiting">Waiting</string>
+    <string name="motion_unchange">Unchange</string>
+    <string name="closing_title">Closing</string>
+    <string name="closing_prompt">Are you sure you want to exit?</string>
+    <string name="closing_confirm">Yes</string>
+    <string name="closing_decline">No</string>
+</resources>
