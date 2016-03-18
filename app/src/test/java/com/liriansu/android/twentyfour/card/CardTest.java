@@ -10,10 +10,10 @@ public class CardTest {
 
     @Before
     public void setUp() throws Exception {
-        spadesA = new Card(Suit.SPADES, 1);
-        heartsQ = new Card(Suit.HEARTS, 12);
-        clubsEight = new Card(Suit.CLUBS, 8);
-        diamondThree = new Card(Suit.DIAMONDS, 3);
+        spadesA = new Card(Suit.SPADES, Rank.ACE);
+        heartsQ = new Card(Suit.HEARTS, Rank.QUEEN);
+        clubsEight = new Card(Suit.CLUBS, Rank.EIGHT);
+        diamondThree = new Card(Suit.DIAMONDS, Rank.THREE);
     }
 
     @Test
@@ -26,10 +26,10 @@ public class CardTest {
 
     @Test
     public void testGetRank() throws Exception {
-        assertEquals(1, spadesA.getRank());
-        assertEquals(12, heartsQ.getRank());
-        assertEquals(8, clubsEight.getRank());
-        assertEquals(3, diamondThree.getRank());
+        assertEquals(Rank.ACE, spadesA.getRank());
+        assertEquals(Rank.QUEEN, heartsQ.getRank());
+        assertEquals(Rank.EIGHT, clubsEight.getRank());
+        assertEquals(Rank.THREE, diamondThree.getRank());
     }
 
     @Test
@@ -38,5 +38,13 @@ public class CardTest {
         assertEquals(10, heartsQ.getPoint());
         assertEquals(8, clubsEight.getPoint());
         assertEquals(3, diamondThree.getPoint());
+    }
+
+    @Test
+    public void testGetSymbol() throws  Exception {
+        assertEquals("♠A", spadesA.getSymbol());
+        assertEquals("♥Q", heartsQ.getSymbol());
+        assertEquals("♣8", clubsEight.getSymbol());
+        assertEquals("♦3", diamondThree.getSymbol());
     }
 }

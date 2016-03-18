@@ -28,4 +28,10 @@ public class DeckTest {
     public void testGetSize() throws Exception {
         assertEquals((new Deck()).getSize(), 52);
     }
+
+    @Test
+    public void testGetCurrentCard() throws Exception {
+        deck = new Deck();
+        assertEquals(deck.drawCard(), deck.getCurrentCard());
+    }
 }

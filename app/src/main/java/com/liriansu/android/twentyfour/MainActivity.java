@@ -16,11 +16,11 @@ import com.liriansu.android.twentyfour.card.Deck;
 public class MainActivity extends AppCompatActivity {
     private float x1, x2, y1, y2;
     private long score;
-    private Card currentCard;
+    private Boolean gameStop;
     private Deck deck;
     private Button replayButton;
+    private TextView plusView, minusView, multiView, divView;
     static final int MIN_DIST = 150;
-    static final String POINT_GET = "com.liriansu.android.point";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,30 +28,23 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         replayButton = (Button) findViewById(R.id.replay_button);
+        plusView = (TextView) findViewById(R.id.math_plus);
+        minusView = (TextView) findViewById(R.id.math_minus);
+        multiView = (TextView) findViewById(R.id.math_multiple);
+        divView = (TextView) findViewById(R.id.math_divide);
         assert replayButton != null;
         replayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                score = 1;
-                deck = new Deck();
-                drawCard();
-                v.setVisibility(View.INVISIBLE);
+                startGame();
             }
         });
-        score = 1;
-        deck = new Deck();
-        drawCard();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putLong(POINT_GET, score);
-        super.onSaveInstanceState(outState);
+        startGame();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (score != 24 && currentCard != null) {
+        if (!gameStop) {
             int action = MotionEventCompat.getActionMasked(event);
             switch (action) {
                 case (MotionEvent.ACTION_DOWN):
@@ -71,41 +64,61 @@ public class MainActivity extends AppCompatActivity {
     private void getMovement(float deltaX, float deltaY) {
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
             if (x1 - x2 > MIN_DIST) {
-                score = score * currentCard.getPoint();
+                score = score * deck.getCurrentCard().getPoint();
             } else if (x2 - x1 > MIN_DIST) {
-                score = score / currentCard.getPoint();
+                score = score / deck.getCurrentCard().getPoint();
             } else {
                 return;
             }
         } else {
             if (y1 - y2 > MIN_DIST) {
-                score = score + currentCard.getPoint();
+                score = score + deck.getCurrentCard().getPoint();
             } else if (y2 - y1 > MIN_DIST) {
-                score = score - currentCard.getPoint();
+                score = score - deck.getCurrentCard().getPoint();
             } else {
                 return;
             }
         }
 
         if (score == 24) {
-            TextView view = (TextView) findViewById(R.id.fullscreen_content);
-            assert view != null;
-            view.setText(R.string.win);
-            replayButton.setVisibility(View.VISIBLE);
+            endGame(R.string.win);
         } else {
             drawCard();
         }
     }
 
-    private void drawCard() {
-        currentCard = deck.drawCard();
+    private void endGame(int msg) {
+        gameStop = true;
         TextView view = (TextView) findViewById(R.id.fullscreen_content);
         assert view != null;
-        if (currentCard == null) {
-            view.setText(R.string.out_of_card);
-            replayButton.setVisibility(View.VISIBLE);
+        view.setText(msg);
+        plusView.setText("");
+        minusView.setText("");
+        multiView.setText("");
+        divView.setText("");
+        replayButton.setVisibility(View.VISIBLE);
+    }
+
+    private void startGame() {
+        gameStop = false;
+        deck = new Deck();
+        score = 1;
+        drawCard();
+        replayButton.setVisibility(View.INVISIBLE);
+    }
+
+    private void drawCard() {
+        TextView view = (TextView) findViewById(R.id.fullscreen_content);
+        assert view != null;
+        if (deck.drawCard() == null) {
+            endGame(R.string.out_of_card);
         } else {
-            view.setText(String.format("%d ? %d", score, currentCard.getPoint()));
+            Card c = deck.getCurrentCard();
+            view.setText(String.format("%d", score));
+            plusView.setText(String.format("+%s%s", c.getSuit().getSymbol(), c.getRank().getSymbol()));
+            minusView.setText(String.format("-%s%s", c.getSuit().getSymbol(), c.getRank().getSymbol()));
+            multiView.setText(String.format("*%s%s", c.getSuit().getSymbol(), c.getRank().getSymbol()));
+            divView.setText(String.format("/%s%s", c.getSuit().getSymbol(), c.getRank().getSymbol()));
         }
     }
 

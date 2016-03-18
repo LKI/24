@@ -2,9 +2,9 @@ package com.liriansu.android.twentyfour.card;
 
 public class Card {
     private Suit suit;
-    private int rank;
+    private Rank rank;
 
-    public Card(Suit s, int r) {
+    public Card(Suit s, Rank r) {
         this.suit = s;
         this.rank = r;
     }
@@ -13,15 +13,15 @@ public class Card {
         return this.suit;
     }
 
-    public int getRank() {
+    public Rank getRank() {
         return this.rank;
     }
 
     public int getPoint() {
-        if (this.rank > 10) {
-            return 10;
-        } else {
-            return this.rank;
-        }
+        return this.rank.getPoint();
+    }
+
+    public String getSymbol() {
+        return suit.getSymbol() + rank.getSymbol();
     }
 }

@@ -6,25 +6,30 @@ import java.util.Random;
 public class Deck {
     private ArrayList<Card> deck;
     private Random random;
+    private Card currentCard;
 
     public Deck() {
+        random = new Random();
         deck = new ArrayList<>();
         for (Suit s : Suit.values()) {
-            for (int r = 1; r <= 13; r++) {
+            for (Rank r : Rank.values()) {
                 Card c = new Card(s, r);
                 deck.add(c);
             }
         }
+        currentCard = null;
     }
 
     public Card drawCard() {
         if (getSize() == 0) {
             return null;
         }
-        if (random == null) {
-            random = new Random();
-        }
-        return deck.remove(random.nextInt(deck.size()));
+        currentCard = deck.remove(random.nextInt(deck.size()));
+        return currentCard;
+    }
+
+    public Card getCurrentCard() {
+        return currentCard;
     }
 
     public int getSize() {

@@ -1,11 +1,17 @@
 package com.liriansu.android.twentyfour.card;
 
-/**
- * Created by Lirian on 2016/3/17.
- */
 public enum Suit {
-    SPADES,
-    HEARTS,
-    CLUBS,
-    DIAMONDS,
+    SPADES("♠"),
+    HEARTS("♥"),
+    CLUBS("♣"),
+    DIAMONDS("♦");
+
+    private final String symbol;
+    Suit(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
 }
