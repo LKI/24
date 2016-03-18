@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private Boolean gameStop;
     private Deck deck;
     private Button replayButton;
-    private TextView plusView, minusView, multiView, divView;
+    private TextView scoreView, plusView, minusView, multiView, divView, remainView;
     static final int MIN_DIST = 150;
 
     @Override
@@ -27,11 +27,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        replayButton = (Button) findViewById(R.id.replay_button);
-        plusView = (TextView) findViewById(R.id.math_plus);
+        divView = (TextView) findViewById(R.id.math_divide);
         minusView = (TextView) findViewById(R.id.math_minus);
         multiView = (TextView) findViewById(R.id.math_multiple);
-        divView = (TextView) findViewById(R.id.math_divide);
+        plusView = (TextView) findViewById(R.id.math_plus);
+        remainView = (TextView) findViewById(R.id.card_count);
+        scoreView = (TextView) findViewById(R.id.score_board);
+        replayButton = (Button) findViewById(R.id.replay_button);
         assert replayButton != null;
         replayButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,9 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void endGame(int msg) {
         gameStop = true;
-        TextView view = (TextView) findViewById(R.id.fullscreen_content);
-        assert view != null;
-        view.setText(msg);
+        scoreView.setText(msg);
         plusView.setText("");
         minusView.setText("");
         multiView.setText("");
@@ -102,23 +102,23 @@ public class MainActivity extends AppCompatActivity {
     private void startGame() {
         gameStop = false;
         deck = new Deck();
-        score = 1;
+        deck.drawCard();
+        score = deck.getCurrentCard().getPoint();
         drawCard();
         replayButton.setVisibility(View.INVISIBLE);
     }
 
     private void drawCard() {
-        TextView view = (TextView) findViewById(R.id.fullscreen_content);
-        assert view != null;
         if (deck.drawCard() == null) {
             endGame(R.string.out_of_card);
         } else {
             Card c = deck.getCurrentCard();
-            view.setText(String.format("%d", score));
-            plusView.setText(String.format("+%s%s", c.getSuit().getSymbol(), c.getRank().getSymbol()));
-            minusView.setText(String.format("-%s%s", c.getSuit().getSymbol(), c.getRank().getSymbol()));
-            multiView.setText(String.format("*%s%s", c.getSuit().getSymbol(), c.getRank().getSymbol()));
-            divView.setText(String.format("/%s%s", c.getSuit().getSymbol(), c.getRank().getSymbol()));
+            scoreView.setText(String.format("%d", score));
+            remainView.setText(String.format("%s %s", getString(R.string.card_count), deck.getSize() + 1));
+            plusView.setText(String.format("+%s", c.getSymbol()));
+            minusView.setText(String.format("-%s", c.getSymbol()));
+            multiView.setText(String.format("*%s", c.getSymbol()));
+            divView.setText(String.format("/%s", c.getSymbol()));
         }
     }
 

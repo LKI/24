@@ -3,6 +3,7 @@
 
     <string name="win">Win</string>
     <string name="out_of_card">Out of card</string>
+    <string name="card_count">Card Count:</string>
     <string name="math_plus">+</string>
     <string name="math_minus">-</string>
     <string name="math_multiple">*</string>
