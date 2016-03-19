@@ -30,7 +30,7 @@ public class ClassicActivity extends AppCompatActivity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_classic);
         divView = (TextView) findViewById(R.id.math_divide);
         minusView = (TextView) findViewById(R.id.math_minus);
         multiView = (TextView) findViewById(R.id.math_multiple);
@@ -124,18 +124,5 @@ public class ClassicActivity extends AppCompatActivity {
             multiView.setText(String.format("*%s", c.getSymbol()));
             divView.setText(String.format("/%s", c.getSymbol()));
         }
-    }
-
-    public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.closing_title)
-                .setMessage(R.string.closing_prompt)
-                .setPositiveButton(R.string.closing_confirm, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                })
-                .setNegativeButton(R.string.closing_decline, null)
-                .show();
     }
 }
