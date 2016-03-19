@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.liriansu.android.twentyfour.card.Card;
 import com.liriansu.android.twentyfour.card.Deck;
 
-public class MainActivity extends AppCompatActivity {
+public class ClassicActivity extends AppCompatActivity {
     private float x1, x2, y1, y2;
     private long score;
     private Boolean gameStop;
