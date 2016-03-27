@@ -5,6 +5,7 @@
     <string name="out_of_card">Out of card</string>
     <string name="card_count">Card Count:</string>
     <string name="play_classic">Classic</string>
+    <string name="game_count">Game Count:</string>
     <string name="math_plus">+</string>
     <string name="math_minus">-</string>
     <string name="math_multiple">*</string>
@@ -16,4 +17,6 @@
     <string name="closing_confirm">Yes</string>
     <string name="closing_decline">No</string>
     <string name="title_activity_main_page">MainPageActivity</string>
+    <string name="achievement_title">Title</string>
+    <string name="achievement_description">Description</string>
 </resources>

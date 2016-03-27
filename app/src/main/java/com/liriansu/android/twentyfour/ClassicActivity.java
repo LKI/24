@@ -1,19 +1,24 @@
 package com.liriansu.android.twentyfour;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.liriansu.android.twentyfour.card.Card;
 import com.liriansu.android.twentyfour.card.Deck;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ClassicActivity extends AppCompatActivity {
     private float x1, x2, y1, y2;
@@ -21,7 +26,7 @@ public class ClassicActivity extends AppCompatActivity {
     private Boolean gameStop;
     private Deck deck;
     private Button replayButton;
-    private TextView scoreView, plusView, minusView, multiView, divView, remainView;
+    private TextView scoreView, plusView, minusView, multiView, divView, remainView, gameCountView;
     static final int MIN_DIST = 150;
 
     @Override
@@ -37,6 +42,7 @@ public class ClassicActivity extends AppCompatActivity {
         plusView = (TextView) findViewById(R.id.math_plus);
         remainView = (TextView) findViewById(R.id.card_count);
         scoreView = (TextView) findViewById(R.id.score_board);
+        gameCountView = (TextView) findViewById(R.id.game_count);
         replayButton = (Button) findViewById(R.id.replay_button);
         assert replayButton != null;
         replayButton.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +114,7 @@ public class ClassicActivity extends AppCompatActivity {
         deck = new Deck();
         deck.drawCard();
         score = deck.getCurrentCard().getPoint();
+        updateGameCount();
         drawCard();
         replayButton.setVisibility(View.INVISIBLE);
     }
@@ -124,5 +131,33 @@ public class ClassicActivity extends AppCompatActivity {
             multiView.setText(String.format("*%s", c.getSymbol()));
             divView.setText(String.format("/%s", c.getSymbol()));
         }
+    }
+
+    private void updateGameCount() {
+        SharedPreferences preferences = this.getPreferences(Context.MODE_PRIVATE);
+        int gameCount = preferences.getInt(getString(R.string.game_count), 0) + 1;
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(getString(R.string.game_count), gameCount);
+        editor.apply();
+//        if (0 == gameCount % 2) {
+//        }
+        gameCountView.setText(Integer.toString(gameCount));
+    }
+
+    public void showPopupAchievement(View view) {
+        final PopupWindow popupWindow = new PopupWindow(this);
+        View popupView = this.getLayoutInflater().inflate(R.layout.layout_achivement, null);
+        popupWindow.setContentView(popupView);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAtLocation(findViewById(android.R.id.content), Gravity.TOP, 0, 0);
+
+        int ACHIEVEMENT_POPUP_TIME = 1000;
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                popupWindow.dismiss();
+            }
+        }, ACHIEVEMENT_POPUP_TIME);
     }
 }
